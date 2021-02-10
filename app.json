@@ -1,0 +1,12 @@
+{
+  "name": "centerpanos-admin",
+  "displayName": "centerpanos-admin",
+  "expo": {
+    "name": "centerpanos-admin",
+    "slug": "centerpanos-admin",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
