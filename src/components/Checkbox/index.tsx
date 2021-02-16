@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
 import { GestureResponderEvent } from 'react-native';
-import { Image } from '../Image';
+import { Image } from '~/components/Image';
 import { CheckboxContainer, CheckboxInput, CheckboxLabel } from './styles';
 
 type CheckboxProps = {
@@ -24,7 +24,7 @@ const Checkbox: FC<CheckboxProps> = ({ label, onChange }): JSX.Element => {
     return (
         <CheckboxContainer onPress={onPress}>
             <CheckboxInput onPress={onPress} checked={checked}>
-                {checked && <Image width={15} height={12} source={require('../../../assets/icons/checkmark.png')} />}
+                {checked && <Image width={15} height={12} source={require('~/assets/icons/checkmark.png')} />}
             </CheckboxInput>
             <CheckboxLabel>{label}</CheckboxLabel>
         </CheckboxContainer>

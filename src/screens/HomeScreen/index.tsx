@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Button, Text, View } from 'react-native';
-import { useAuth } from '../../contexts/Auth';
+import { useAuth } from '~/contexts/Auth';
 
 const Home: FC = (): JSX.Element => {
     const { signOut } = useAuth();

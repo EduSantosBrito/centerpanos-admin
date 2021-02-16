@@ -1,8 +1,8 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import Button from '../../components/Button';
-import Checkbox from '../../components/Checkbox';
-import { Image } from '../../components/Image';
-import { AuthContextType } from '../../contexts/Auth';
+import Button from '~/components/Button';
+import Checkbox from '~/components/Checkbox';
+import { Image } from '~/components/Image';
+import { AuthContextType } from '~/contexts/Auth';
 import {
     Container,
     ForgotPasswordText,
@@ -47,7 +47,7 @@ const LoginLayout: FC<LoginLayoutType> = ({
     setShowPassword,
 }): JSX.Element => (
     <Container>
-        <Image width={160} height={71.54} source={require('../../../assets/logo.png')} />
+        <Image width={160} height={71.54} source={require('~/assets/logo.png')} />
         <Title>Entrar na minha conta</Title>
         <FormContainer>
             <InputContainer>
@@ -76,9 +76,9 @@ const LoginLayout: FC<LoginLayoutType> = ({
                     />
                     <IconContainer onPress={() => setShowPassword(actualShowPassword => !actualShowPassword)}>
                         {showPassword ? (
-                            <Image width={20} height={13.64} source={require('../../../assets/icons/show-password.png')} />
+                            <Image width={20} height={13.64} source={require('~/assets/icons/show-password.png')} />
                         ) : (
-                            <Image width={20} height={17.41} source={require('../../../assets/icons/hide-password.png')} />
+                            <Image width={20} height={17.41} source={require('~/assets/icons/hide-password.png')} />
                         )}
                     </IconContainer>
                 </InputWithIconWrapper>

@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { useAuth } from '../../contexts/Auth';
+import { useAuth } from '~/contexts/Auth';
 import LoginLayout, { LoginInputType } from './layout';
 
 const Login: FC = (): JSX.Element => {

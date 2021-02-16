@@ -14,6 +14,23 @@ module.exports = function (api) {
                 ],
             },
         },
-        plugins: ['inline-dotenv'],
+        plugins: [
+            'inline-dotenv',
+            [
+                'module-resolver',
+                {
+                    root: ['./'],
+                    extensions: ['.ts', '.tsx'],
+                    alias: {
+                        '~/src': './src',
+                        '~/components': './src/components',
+                        '~/contexts': './src/contexts',
+                        '~/screens': './src/screens',
+                        '~/generated': './src/generated',
+                        '~/assets': './assets',
+                    },
+                },
+            ],
+        ],
     };
 };

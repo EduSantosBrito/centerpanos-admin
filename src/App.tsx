@@ -3,8 +3,8 @@ import { useFonts } from '@use-expo/font';
 import AppLoading from 'expo-app-loading';
 import React from 'react';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
-import { AuthProvider } from './contexts/Auth';
-import { Navigator } from './Navigator';
+import { AuthProvider } from '~/contexts/Auth';
+import { Navigator } from '~/src/Navigator';
 
 const client = new ApolloClient({
     uri: process.env.API_URL,
@@ -51,10 +51,10 @@ const theme: DefaultTheme = {
 
 export default function App() {
     const customFonts = {
-        InterRegular: require('../assets/fonts/Inter-Regular.ttf'),
-        InterMedium: require('../assets/fonts/Inter-Medium.ttf'),
-        InterSemiBold: require('../assets/fonts/Inter-SemiBold.ttf'),
-        InterBold: require('../assets/fonts/Inter-Bold.ttf'),
+        InterRegular: require('~/assets/fonts/Inter-Regular.ttf'),
+        InterMedium: require('~/assets/fonts/Inter-Medium.ttf'),
+        InterSemiBold: require('~/assets/fonts/Inter-SemiBold.ttf'),
+        InterBold: require('~/assets/fonts/Inter-Bold.ttf'),
     };
 
     const [isLoaded] = useFonts(customFonts);

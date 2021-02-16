@@ -11,7 +11,16 @@
         "strict": true,
         "target": "esnext",
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "baseUrl": ".",
+        "paths": {
+            "~/src/*": ["./src/*"],
+            "~/components/*": ["./src/components/*"],
+            "~/contexts/*": ["./src/contexts/*"],
+            "~/screens/*": ["./src/screens/*"],
+            "~/generated/*": ["./src/generated/*"],
+            "~/assets/*": ["./assets/*"]
+        }
     },
     "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
 }
