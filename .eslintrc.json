@@ -12,7 +12,10 @@
         "sourceType": "module",
         "project": "./tsconfig.json"
     },
-    "plugins": ["react", "@typescript-eslint", "prettier", "jest"],
+    "globals": {
+        "JSX": "readonly"
+    },
+    "plugins": ["react", "@typescript-eslint", "prettier", "jest", "react-hooks"],
     "rules": {
         "prettier/prettier": ["error"],
         "no-underscore-dangle": "off",
@@ -27,6 +30,7 @@
                 "props": false
             }
         ],
+        "import/no-unresolved": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "import/prefer-default-export": "off",
         "import/extensions": "off",
@@ -34,6 +38,13 @@
         "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": ["error"],
-        "react/style-prop-object": "off"
+        "react/style-prop-object": "off",
+        "react/prop-types": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "error",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"]
     }
 }
