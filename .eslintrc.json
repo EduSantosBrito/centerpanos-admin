@@ -13,7 +13,8 @@
         "project": "./tsconfig.json"
     },
     "globals": {
-        "JSX": "readonly"
+        "JSX": "readonly",
+        "window": "readonly"
     },
     "plugins": ["react", "@typescript-eslint", "prettier", "jest", "react-hooks"],
     "rules": {

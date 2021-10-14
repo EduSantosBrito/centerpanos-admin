@@ -1,15 +1,19 @@
 import React, { FC } from 'react';
 import { Button, Text, View } from 'react-native';
-import { useAuth } from '~/contexts/Auth';
+import { useDispatch } from 'react-redux';
+import { signOut } from '~/src/ducks/auth';
+import * as S from './styles';
 
 const Home: FC = (): JSX.Element => {
-    const { signOut } = useAuth();
-
+    const dispatch = useDispatch();
+    const handleSignOut = () => {
+        dispatch(signOut());
+    };
     return (
-        <View>
+        <S.Container>
             <Text>Home page</Text>
-            <Button onPress={signOut} title='Logout' />
-        </View>
+            <Button onPress={handleSignOut} title='Logout' />
+        </S.Container>
     );
 };
 

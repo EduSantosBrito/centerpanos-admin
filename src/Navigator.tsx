@@ -1,14 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { FC } from 'react';
-import { useAuth } from '~/contexts/Auth';
+import { useSelector } from 'react-redux';
 import HomeScreen from '~/screens/HomeScreen';
 import LoginScreen from '~/screens/LoginScreen';
+import { RootState } from '~/src/store';
 
 const Stack = createStackNavigator();
 
 export const Navigator: FC = () => {
-    const { isSignout, token } = useAuth();
+    const token = useSelector((store: RootState) => store.auth.token);
 
     return (
         <NavigationContainer>
@@ -19,13 +20,7 @@ export const Navigator: FC = () => {
                     </>
                 ) : (
                     <>
-                        <Stack.Screen
-                            name='Login'
-                            component={LoginScreen}
-                            options={{
-                                animationTypeForReplace: isSignout ? 'pop' : 'push',
-                            }}
-                        />
+                        <Stack.Screen name='Login' component={LoginScreen} options={{ animationTypeForReplace: 'push' }} />
                     </>
                 )}
             </Stack.Navigator>

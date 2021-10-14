@@ -2,19 +2,8 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import Button from '~/components/Button';
 import Checkbox from '~/components/Checkbox';
 import { Image } from '~/components/Image';
-import { AuthContextType } from '~/contexts/Auth';
-import {
-    Container,
-    ForgotPasswordText,
-    FormContainer,
-    IconContainer,
-    Input,
-    InputContainer,
-    InputWithIconWrapper,
-    Label,
-    SecondaryOptionsContainer,
-    Title,
-} from './styles';
+import { LoginMutationVariables } from '~/src/generated/graphql';
+import * as S from './styles';
 
 export enum LoginInputType {
     EMAIL,
@@ -30,8 +19,8 @@ type LoginLayoutType = {
     setFocusedInput: Dispatch<SetStateAction<LoginInputType | null>>;
     showPassword: boolean;
     setShowPassword: Dispatch<SetStateAction<boolean>>;
-    signIn: AuthContextType['signIn'];
-    toggleStayConnected: AuthContextType['toggleStayConnected'];
+    signIn: (variables: LoginMutationVariables) => Promise<void>;
+    toggleStayConnected: () => void;
 };
 
 const LoginLayout: FC<LoginLayoutType> = ({
@@ -46,13 +35,13 @@ const LoginLayout: FC<LoginLayoutType> = ({
     showPassword,
     setShowPassword,
 }): JSX.Element => (
-    <Container>
+    <S.Container>
         <Image width={160} height={71.54} source={require('~/assets/logo.png')} />
-        <Title>Entrar na minha conta</Title>
-        <FormContainer>
-            <InputContainer>
-                <Label>E-mail</Label>
-                <Input
+        <S.Title>Entrar na minha conta</S.Title>
+        <S.FormContainer>
+            <S.InputContainer>
+                <S.Label>E-mail</S.Label>
+                <S.Input
                     placeholder='Digite o seu e-mail'
                     value={email}
                     onChangeText={setEmail}
@@ -60,11 +49,11 @@ const LoginLayout: FC<LoginLayoutType> = ({
                     onFocus={() => setFocusedInput(LoginInputType.EMAIL)}
                     onBlur={() => setFocusedInput(null)}
                 />
-            </InputContainer>
-            <InputContainer>
-                <Label>Senha</Label>
-                <InputWithIconWrapper>
-                    <Input
+            </S.InputContainer>
+            <S.InputContainer>
+                <S.Label>Senha</S.Label>
+                <S.InputWithIconWrapper>
+                    <S.Input
                         placeholder='Digite a sua senha'
                         value={password}
                         onChangeText={setPassword}
@@ -74,22 +63,22 @@ const LoginLayout: FC<LoginLayoutType> = ({
                         onBlur={() => setFocusedInput(null)}
                         underlineColorAndroid='transparent'
                     />
-                    <IconContainer onPress={() => setShowPassword(actualShowPassword => !actualShowPassword)}>
+                    <S.IconContainer onPress={() => setShowPassword(actualShowPassword => !actualShowPassword)}>
                         {showPassword ? (
                             <Image width={20} height={13.64} source={require('~/assets/icons/show-password.png')} />
                         ) : (
                             <Image width={20} height={17.41} source={require('~/assets/icons/hide-password.png')} />
                         )}
-                    </IconContainer>
-                </InputWithIconWrapper>
-            </InputContainer>
-            <SecondaryOptionsContainer>
+                    </S.IconContainer>
+                </S.InputWithIconWrapper>
+            </S.InputContainer>
+            <S.SecondaryOptionsContainer>
                 <Checkbox label='Manter conectado' onChange={toggleStayConnected} />
-                <ForgotPasswordText>Esqueceu a senha?</ForgotPasswordText>
-            </SecondaryOptionsContainer>
-            <Button onPress={signIn} text='Entrar' />
-        </FormContainer>
-    </Container>
+                <S.ForgotPasswordText>Esqueceu a senha?</S.ForgotPasswordText>
+            </S.SecondaryOptionsContainer>
+            <Button onPress={() => signIn({ email, password })} text='Entrar' />
+        </S.FormContainer>
+    </S.Container>
 );
 
 export default LoginLayout;

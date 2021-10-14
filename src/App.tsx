@@ -1,15 +1,11 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { useFonts } from '@use-expo/font';
 import AppLoading from 'expo-app-loading';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
-import { AuthProvider } from '~/contexts/Auth';
 import { Navigator } from '~/src/Navigator';
-
-const client = new ApolloClient({
-    uri: process.env.API_URL,
-    cache: new InMemoryCache(),
-});
+import store from '~/src/store';
 
 const theme: DefaultTheme = {
     borderRadius: {
@@ -49,6 +45,8 @@ const theme: DefaultTheme = {
     },
 };
 
+const queryClient = new QueryClient();
+
 export default function App() {
     const customFonts = {
         InterRegular: require('~/assets/fonts/Inter-Regular.ttf'),
@@ -64,12 +62,12 @@ export default function App() {
     }
 
     return (
-        <ApolloProvider client={client}>
-            <AuthProvider>
+        <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
                 <ThemeProvider theme={theme}>
                     <Navigator />
                 </ThemeProvider>
-            </AuthProvider>
-        </ApolloProvider>
+            </QueryClientProvider>
+        </Provider>
     );
 }
