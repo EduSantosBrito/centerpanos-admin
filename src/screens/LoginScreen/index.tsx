@@ -1,12 +1,16 @@
 import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { signIn, toggleStayConnected } from '~/src/ducks/auth';
 import { DefaultError, LoginMutationVariables, LoginResponse, LoginSuccessfully, useLoginMutation } from '~/src/generated/graphql';
 import LoginLayout, { LoginInputType } from './layout';
+import schema from './schema';
 
 const Login: FC = (): JSX.Element => {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const methods = useForm<LoginMutationVariables>({
+        resolver: yupResolver(schema),
+    });
     const [focusedInput, setFocusedInput] = useState<LoginInputType | null>(null);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const signInMutation = useLoginMutation();
@@ -15,7 +19,7 @@ const Login: FC = (): JSX.Element => {
     const isLoginSuccessfully = (response: LoginResponse): response is LoginSuccessfully => response.__typename === 'LoginSuccessfully';
     const isLoginFailed = (response: LoginResponse): response is DefaultError => response.__typename === 'DefaultError';
 
-    const handleSignIn = async (variables: LoginMutationVariables) => {
+    const onSubmit: SubmitHandler<LoginMutationVariables> = async variables => {
         const response = await signInMutation.mutateAsync(variables);
         if (isLoginSuccessfully(response.login as LoginResponse)) {
             const loginSuccessfully = response.login as LoginSuccessfully;
@@ -27,18 +31,18 @@ const Login: FC = (): JSX.Element => {
     };
 
     return (
-        <LoginLayout
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-            signIn={handleSignIn}
-            toggleStayConnected={() => dispatch(toggleStayConnected())}
-            focusedInput={focusedInput}
-            setFocusedInput={setFocusedInput}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-        />
+        <FormProvider {...methods}>
+            <LoginLayout
+                errors={methods.formState.errors}
+                control={methods.control}
+                onSubmit={methods.handleSubmit(onSubmit)}
+                toggleStayConnected={() => dispatch(toggleStayConnected())}
+                focusedInput={focusedInput}
+                setFocusedInput={setFocusedInput}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+            />
+        </FormProvider>
     );
 };
 
