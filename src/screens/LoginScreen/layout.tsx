@@ -1,9 +1,36 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
+import { Control, Controller, FieldError } from 'react-hook-form';
+import { Image, PixelRatio } from 'react-native';
 import Button from '~/components/Button';
 import Checkbox from '~/components/Checkbox';
-import { Image } from '~/components/Image';
 import { LoginMutationVariables } from '~/src/generated/graphql';
+import ErrorIcon from '~/assets/icons/error.png';
+import ShowPassword from '~/assets/icons/show-password.png';
+import HidePassword from '~/assets/icons/hide-password.png';
+import Logo from '~/assets/logo.png';
 import * as S from './styles';
+
+const pixelRatio = PixelRatio.getPixelSizeForLayoutSize(24);
+const ErrorIconUri = Image.resolveAssetSource(ErrorIcon).uri;
+const ShowPasswordUri = Image.resolveAssetSource(ShowPassword).uri;
+const HidePasswordUri = Image.resolveAssetSource(HidePassword).uri;
+const LogoUri = Image.resolveAssetSource(Logo).uri;
+
+const getPasswordIcon = (hasError: boolean, showPassword: boolean) => {
+    if (hasError) {
+        return (
+            <Image
+                source={{ uri: ErrorIconUri }}
+                style={{ width: PixelRatio.getPixelSizeForLayoutSize(10), height: PixelRatio.getPixelSizeForLayoutSize(10) }}
+            />
+        );
+    }
+    return !showPassword ? (
+        <Image style={{ width: pixelRatio, height: pixelRatio }} source={{ uri: ShowPasswordUri, width: 24, height: 24 }} />
+    ) : (
+        <Image style={{ width: pixelRatio, height: pixelRatio }} source={{ uri: HidePasswordUri, width: 24, height: 24 }} />
+    );
+};
 
 export enum LoginInputType {
     EMAIL,
@@ -11,24 +38,23 @@ export enum LoginInputType {
 }
 
 type LoginLayoutType = {
-    email: string;
-    setEmail: Dispatch<SetStateAction<string>>;
-    password: string;
-    setPassword: Dispatch<SetStateAction<string>>;
+    control: Control<LoginMutationVariables>;
+    errors: {
+        email?: FieldError | undefined;
+        password?: FieldError | undefined;
+    };
+    onSubmit: (event?: any) => Promise<void>;
     focusedInput: LoginInputType | null;
     setFocusedInput: Dispatch<SetStateAction<LoginInputType | null>>;
     showPassword: boolean;
     setShowPassword: Dispatch<SetStateAction<boolean>>;
-    signIn: (variables: LoginMutationVariables) => Promise<void>;
     toggleStayConnected: () => void;
 };
 
 const LoginLayout: FC<LoginLayoutType> = ({
-    email,
-    setEmail,
-    password,
-    setPassword,
-    signIn,
+    control,
+    errors,
+    onSubmit,
     toggleStayConnected,
     focusedInput,
     setFocusedInput,
@@ -36,47 +62,62 @@ const LoginLayout: FC<LoginLayoutType> = ({
     setShowPassword,
 }): JSX.Element => (
     <S.Container>
-        <Image width={160} height={71.54} source={require('~/assets/logo.png')} />
+        <Image style={{ width: pixelRatio, height: pixelRatio }} source={{ uri: LogoUri, width: 160, height: 71 }} />
         <S.Title>Entrar na minha conta</S.Title>
         <S.FormContainer>
             <S.InputContainer>
                 <S.Label>E-mail</S.Label>
-                <S.Input
-                    placeholder='Digite o seu e-mail'
-                    value={email}
-                    onChangeText={setEmail}
-                    focus={focusedInput === LoginInputType.EMAIL}
-                    onFocus={() => setFocusedInput(LoginInputType.EMAIL)}
-                    onBlur={() => setFocusedInput(null)}
+                <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <S.Input
+                            placeholder='Digite o seu e-mail'
+                            value={value}
+                            error={!!errors?.email}
+                            onChangeText={onChange}
+                            focus={focusedInput === LoginInputType.EMAIL}
+                            onFocus={() => setFocusedInput(LoginInputType.EMAIL)}
+                            onBlur={() => setFocusedInput(null)}
+                        />
+                    )}
+                    name='email'
                 />
+                <S.IconContainer>
+                    {!!errors?.email && (
+                        <Image style={{ width: pixelRatio, height: pixelRatio }} source={{ uri: ErrorIconUri, width: 24, height: 24 }} />
+                    )}
+                </S.IconContainer>
+                <S.HelperText show={!!errors?.email}>{errors?.email?.message ?? ''}</S.HelperText>
             </S.InputContainer>
             <S.InputContainer>
                 <S.Label>Senha</S.Label>
-                <S.InputWithIconWrapper>
-                    <S.Input
-                        placeholder='Digite a sua senha'
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry={showPassword}
-                        focus={focusedInput === LoginInputType.PASSWORD}
-                        onFocus={() => setFocusedInput(LoginInputType.PASSWORD)}
-                        onBlur={() => setFocusedInput(null)}
-                        underlineColorAndroid='transparent'
-                    />
-                    <S.IconContainer onPress={() => setShowPassword(actualShowPassword => !actualShowPassword)}>
-                        {showPassword ? (
-                            <Image width={20} height={13.64} source={require('~/assets/icons/show-password.png')} />
-                        ) : (
-                            <Image width={20} height={17.41} source={require('~/assets/icons/hide-password.png')} />
-                        )}
-                    </S.IconContainer>
-                </S.InputWithIconWrapper>
+                <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <S.Input
+                            placeholder='Digite a sua senha'
+                            onChangeText={onChange}
+                            value={value}
+                            error={!!errors?.password}
+                            secureTextEntry={!showPassword}
+                            focus={focusedInput === LoginInputType.PASSWORD}
+                            onFocus={() => setFocusedInput(LoginInputType.PASSWORD)}
+                            onBlur={() => setFocusedInput(null)}
+                            underlineColorAndroid='transparent'
+                        />
+                    )}
+                    name='password'
+                />
+                <S.IconContainer onPress={() => setShowPassword(actualShowPassword => !actualShowPassword)}>
+                    {getPasswordIcon(!!errors.password, showPassword)}
+                </S.IconContainer>
+                <S.HelperText show={!!errors?.password}>{errors?.password?.message ?? ''}</S.HelperText>
             </S.InputContainer>
             <S.SecondaryOptionsContainer>
                 <Checkbox label='Manter conectado' onChange={toggleStayConnected} />
                 <S.ForgotPasswordText>Esqueceu a senha?</S.ForgotPasswordText>
             </S.SecondaryOptionsContainer>
-            <Button onPress={() => signIn({ email, password })} text='Entrar' />
+            <Button onPress={onSubmit} text='Entrar' />
         </S.FormContainer>
     </S.Container>
 );

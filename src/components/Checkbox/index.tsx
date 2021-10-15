@@ -1,7 +1,9 @@
 import React, { FC, useCallback, useState } from 'react';
-import { GestureResponderEvent } from 'react-native';
-import { Image } from '~/components/Image';
+import { GestureResponderEvent, Image, PixelRatio } from 'react-native';
 import { CheckboxContainer, CheckboxInput, CheckboxLabel } from './styles';
+import CheckIcon from '~/assets/icons/check.png';
+
+const PixelRatio24dp = PixelRatio.getPixelSizeForLayoutSize(24);
 
 type CheckboxProps = {
     label: string;
@@ -24,7 +26,7 @@ const Checkbox: FC<CheckboxProps> = ({ label, onChange }): JSX.Element => {
     return (
         <CheckboxContainer onPress={onPress}>
             <CheckboxInput onPress={onPress} checked={checked}>
-                {checked && <Image width={15} height={12} source={require('~/assets/icons/checkmark.png')} />}
+                {checked && <Image width={PixelRatio24dp} height={PixelRatio24dp} source={{ uri: CheckIcon, width: 24, height: 24 }} />}
             </CheckboxInput>
             <CheckboxLabel>{label}</CheckboxLabel>
         </CheckboxContainer>
