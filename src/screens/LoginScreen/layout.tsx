@@ -60,8 +60,8 @@ const LoginLayout: FC<LoginLayoutType> = ({
                 secureTextEntry={!showPassword}
                 onPressTrailingIcon={() => setShowPassword(actualShowPassword => !actualShowPassword)}
                 trailingIcon={passwordIcon}
-                focus={focusedInput === LoginInputType.EMAIL}
-                onFocus={() => setFocusedInput(LoginInputType.EMAIL)}
+                focus={focusedInput === LoginInputType.PASSWORD}
+                onFocus={() => setFocusedInput(LoginInputType.PASSWORD)}
                 onBlur={() => setFocusedInput(null)}
                 name='password'
             />
