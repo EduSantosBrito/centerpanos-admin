@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -6,6 +6,7 @@ import { signIn, toggleStayConnected } from '~/src/ducks/auth';
 import { DefaultError, LoginMutationVariables, LoginResponse, LoginSuccessfully, useLoginMutation } from '~/src/generated/graphql';
 import LoginLayout, { LoginInputType } from './layout';
 import schema from './schema';
+import Icon from '~/src/components/Icon';
 
 const Login: FC = (): JSX.Element => {
     const methods = useForm<LoginMutationVariables>({
@@ -30,6 +31,13 @@ const Login: FC = (): JSX.Element => {
         }
     };
 
+    const passwordIcon = useMemo(() => {
+        if (showPassword) {
+            return <Icon icon='hide-password' />;
+        }
+        return <Icon icon='show-password' />;
+    }, [showPassword]);
+
     return (
         <FormProvider {...methods}>
             <LoginLayout
@@ -41,6 +49,7 @@ const Login: FC = (): JSX.Element => {
                 setFocusedInput={setFocusedInput}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
+                passwordIcon={passwordIcon}
             />
         </FormProvider>
     );
