@@ -1,16 +1,18 @@
 import React, { FC } from 'react';
-import { Image, ImageURISource } from 'react-native';
+import { Image } from 'react-native';
 import ErrorIcon from '~/assets/icons/error.png';
+import ErrorWhiteIcon from '~/assets/icons/error-white.png';
 import HidePasswordIcon from '~/assets/icons/hide-password.png';
 import ShowPasswordIcon from '~/assets/icons/show-password.png';
 import CheckIcon from '~/assets/icons/check.png';
 
 const ErrorIconUri = Image.resolveAssetSource(ErrorIcon).uri;
+const ErrorWhiteIconUri = Image.resolveAssetSource(ErrorWhiteIcon).uri;
 const ShowPasswordIconUri = Image.resolveAssetSource(ShowPasswordIcon).uri;
 const HidePasswordIconUri = Image.resolveAssetSource(HidePasswordIcon).uri;
 const CheckIconUri = Image.resolveAssetSource(CheckIcon).uri;
 
-type Icons = 'error' | 'check' | 'show-password' | 'hide-password';
+type Icons = 'error' | 'error-white' | 'check' | 'show-password' | 'hide-password';
 type Sizes = 'normal' | 'small' | 'large';
 
 type Props = {
@@ -20,6 +22,7 @@ type Props = {
 
 const iconsUri: Record<Icons, string> = {
     error: ErrorIconUri,
+    'error-white': ErrorWhiteIconUri,
     check: CheckIconUri,
     'show-password': ShowPasswordIconUri,
     'hide-password': HidePasswordIconUri,
