@@ -4,6 +4,6 @@ import LogoImage from '~/assets/logo.png';
 
 const LogoUri = Image.resolveAssetSource(LogoImage).uri;
 
-const Logo = () => <Image style={{ width: 160, aspectRatio: 160 / 71.54 }} resizeMode='cover' source={{ uri: LogoUri }} />;
+const Logo = () => <Image style={{ width: 123, aspectRatio: 123 / 55 }} resizeMode='cover' source={{ uri: LogoUri }} />;
 
 export default Logo;

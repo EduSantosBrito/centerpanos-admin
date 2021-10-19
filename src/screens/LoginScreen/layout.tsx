@@ -1,5 +1,6 @@
 import React, { Dispatch, FC, ReactNode, SetStateAction } from 'react';
 import { Control, FieldError } from 'react-hook-form';
+import { Platform } from 'react-native';
 import Button from '~/components/Button';
 import Checkbox from '~/components/Checkbox';
 import Logo from '~/src/components/Logo';
@@ -38,40 +39,44 @@ const LoginLayout: FC<LoginLayoutType> = ({
     setShowPassword,
     passwordIcon,
 }): JSX.Element => (
-    <S.Container>
-        <Logo />
-        <S.Title>Entrar na minha conta</S.Title>
-        <S.FormContainer>
-            <TextField
-                labelText='E-mail'
-                control={control}
-                placeholder='Digite o seu e-mail'
-                error={errors?.email}
-                focus={focusedInput === LoginInputType.EMAIL}
-                onFocus={() => setFocusedInput(LoginInputType.EMAIL)}
-                onBlur={() => setFocusedInput(null)}
-                name='email'
-            />
-            <TextField
-                control={control}
-                error={errors?.password}
-                labelText='Senha'
-                placeholder='Digite a sua senha'
-                secureTextEntry={!showPassword}
-                onPressTrailingIcon={() => setShowPassword(actualShowPassword => !actualShowPassword)}
-                trailingIcon={passwordIcon}
-                focus={focusedInput === LoginInputType.PASSWORD}
-                onFocus={() => setFocusedInput(LoginInputType.PASSWORD)}
-                onBlur={() => setFocusedInput(null)}
-                name='password'
-            />
-            <S.SecondaryOptionsContainer>
-                <Checkbox label='Manter conectado' onChange={toggleStayConnected} />
-                <S.ForgotPasswordText>Esqueceu a senha?</S.ForgotPasswordText>
-            </S.SecondaryOptionsContainer>
-            <Button onPress={onSubmit} text='Entrar' />
-        </S.FormContainer>
-    </S.Container>
+    <S.KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <S.Container>
+            <S.LogoContainer>
+                <Logo />
+            </S.LogoContainer>
+            <S.FormContainer>
+                <S.Title>Entrar na minha conta</S.Title>
+                <TextField
+                    labelText='E-mail'
+                    control={control}
+                    placeholder='Digite o seu e-mail'
+                    error={errors?.email}
+                    focus={focusedInput === LoginInputType.EMAIL}
+                    onFocus={() => setFocusedInput(LoginInputType.EMAIL)}
+                    onBlur={() => setFocusedInput(null)}
+                    name='email'
+                />
+                <TextField
+                    control={control}
+                    error={errors?.password}
+                    labelText='Senha'
+                    placeholder='Digite a sua senha'
+                    secureTextEntry={!showPassword}
+                    onPressTrailingIcon={() => setShowPassword(actualShowPassword => !actualShowPassword)}
+                    trailingIcon={passwordIcon}
+                    focus={focusedInput === LoginInputType.PASSWORD}
+                    onFocus={() => setFocusedInput(LoginInputType.PASSWORD)}
+                    onBlur={() => setFocusedInput(null)}
+                    name='password'
+                />
+                <S.SecondaryOptionsContainer>
+                    <Checkbox label='Manter conectado' onChange={toggleStayConnected} />
+                    <S.ForgotPasswordText>Esqueceu a senha?</S.ForgotPasswordText>
+                </S.SecondaryOptionsContainer>
+                <Button onPress={onSubmit} text='Entrar' />
+            </S.FormContainer>
+        </S.Container>
+    </S.KeyboardAvoidingView>
 );
 
 export default LoginLayout;
