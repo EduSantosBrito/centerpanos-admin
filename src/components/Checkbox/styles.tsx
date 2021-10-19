@@ -6,7 +6,7 @@ export const CheckboxContainer = styled.Pressable`
     align-items: center;
 `;
 
-export const CheckboxInput = styled.Pressable<{ checked: boolean }>`
+export const CheckboxInput = styled.View<{ checked: boolean }>`
     width: 20px;
     height: 20px;
     border: 1px solid ${({ theme }) => theme.pallete.gray4};
