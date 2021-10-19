@@ -1,22 +1,31 @@
-import styled, { DefaultTheme } from 'styled-components/native';
+import { Platform, StatusBar } from 'react-native';
+import styled from 'styled-components/native';
+
+export const KeyboardAvoidingView = styled.KeyboardAvoidingView`
+    flex: 1;
+`;
+
+export const LogoContainer = styled.View`
+    padding-bottom: 40px;
+`;
 
 export const Container = styled.SafeAreaView`
     flex: 1;
     height: 100%;
-    justify-content: space-evenly;
     align-items: center;
+    padding-top: ${Platform.OS === 'android' ? `${(StatusBar.currentHeight || 0) + 70}px` : 70};
 `;
 
 export const Title = styled.Text`
     font-family: ${({ theme }) => theme.font.bold.fontFamily};
     font-size: ${({ theme }) => theme.font.bold.fontSize};
     color: ${({ theme }) => theme.pallete.gray2};
+    padding-bottom: 52px;
 `;
 
 export const FormContainer = styled.View`
     width: 100%;
-    height: 40%;
-    justify-content: flex-start;
+    height: 100%;
     align-items: center;
 `;
 
